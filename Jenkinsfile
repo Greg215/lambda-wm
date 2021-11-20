@@ -1,6 +1,8 @@
 #!/usr/bin/env groovy
 
+//notification message send to the slack
 def notify_channel_wm = "#tmp-wm"
+
 def terraform_version = "1.0.11"
 env.agent_label = "jenkins-vg-agent"
 
@@ -20,7 +22,7 @@ if (currentBuild.getPreviousBuild()) {
 def build_info = "Job: ${env.JOB_NAME}, Build: #${env.BUILD_NUMBER}."
 
 properties([parameters([
-        choice(choices: ["create", "remove"].join("\n"), description: "Create/Update or remove instance", name: "terraform_action"),
+        choice(choices: ["create", "remove"].join("\n"), description: "Create/Update or remove Lambda function", name: "terraform_action"),
 ])])
 
 podTemplate(label: env.agent_label, yaml: """
@@ -54,16 +56,8 @@ spec:
             }
 
             container('jenkins-agent') {
-                sshagent(credentials : ['jenkins-bitbucket-key']) {
                     stage('Checkout') {
                         checkout scm
-                    }
-
-                    stage('Set Up') {
-                        sh """
-                           mkdir -p ~/.ssh
-                           ssh-keyscan -t rsa bitbucket.org >> ~/.ssh/known_hosts
-                           """
                     }
 
                     stage('Init') {
@@ -145,7 +139,6 @@ spec:
                     stage('Notify') {
                         slackSend channel: "${notify_channel_wm}", color: "good", message: "Lambda-wm has been ${env.terraform_action}"
                     }
-                }
             }
         }
     }
