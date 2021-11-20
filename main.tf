@@ -10,5 +10,6 @@ module "lambda" {
   output_file_name = var.output_file_name
   runtime          = var.runtime
   handler          = var.handler
+  tags             = var.tags
 }
 

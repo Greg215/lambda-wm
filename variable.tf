@@ -35,3 +35,9 @@ variable "output_file_name" {
   type        = string
   default     = ""
 }
+
+variable "tags" {
+  description = "A map of tags to apply to the Lambda function."
+  type        = map(string)
+  default     = {}
+}
