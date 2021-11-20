@@ -1,4 +1,4 @@
-#------ create the iam role -------------------
+#------ create the iam role for Lambda-------------------
 resource "aws_iam_role" "iam_for_lambda" {
   name = "iam_for_lambda"
 
@@ -42,7 +42,6 @@ resource "aws_cloudwatch_log_group" "default" {
   retention_in_days = 14
 }
 
-# See also the following AWS managed policy: AWSLambdaBasicExecutionRole
 resource "aws_iam_policy" "lambda_logging" {
   name        = "lambda_logging"
   path        = "/"

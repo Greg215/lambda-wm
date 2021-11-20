@@ -1,4 +1,6 @@
-#---variable file------
+#-----------variable file------------------------------------
+
+#----------- below are the value that must be provided ------
 variable "aws_region" {
   description = "The region of AWS"
   type        = string
