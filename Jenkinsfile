@@ -90,7 +90,7 @@ spec:
                                 if (env.terraform_action == "create") {
                                     sh 'terraform apply -input=false tfplan'
                                 } else {
-                                    echo "Skip Apply due to not match."
+                                    echo "Skip Apply due to action not match."
                                 }
                             }
                         }
@@ -109,7 +109,7 @@ spec:
                                 echo "${env.t_output}"
                                 slackSend channel: "${notify_channel_wm}", color: "good", message: "Created or updated Lambda-wm Info: ${env.t_output}"
                             } else {
-                                echo "Skip Apply due to not match."
+                                echo "Skip Apply due to action not match."
                             }
                         }
                     }
@@ -120,7 +120,7 @@ spec:
                                 if (env.terraform_action == "remove") {
                                     sh 'terraform destroy -auto-approve'
                                 } else {
-                                    echo "Skip Destroy due to not match."
+                                    echo "Skip Destroy due to action not match."
                                 }
                             }
                         }
