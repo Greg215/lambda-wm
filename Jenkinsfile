@@ -60,32 +60,32 @@ spec:
                         checkout scm
                     }
 
-                    stage('Init') {
+                    stage('Terraform Init') {
                         ansiColor('xterm') {
                             sh 'terraform init -input=false'
                         }
                     }
 
-                    stage('Validate') {
+                    stage('Terraform Validate') {
                         ansiColor('xterm') {
                             sh 'terraform validate'
                         }
                     }
 
-                    stage('Fmt') {
+                    stage('Terraform Fmt') {
                         ansiColor('xterm') {
                             sh 'terraform fmt'
                         }
                     }
 
-                    stage('Plan') {
+                    stage('Terraform Plan') {
                         ansiColor('xterm') {
                             sh 'terraform plan -out=tfplan -input=false'
                         }
                     }
 
                     try {
-                        stage('Apply') {
+                        stage('Terraform Apply') {
                             ansiColor('xterm') {
                                 if (env.terraform_action == "create") {
                                     sh 'terraform apply -input=false tfplan'
@@ -95,14 +95,14 @@ spec:
                             }
                         }
                     } catch (e) {
-                        stage('Remove the failed apply') {
+                        stage('Remove the failed Terraform apply') {
                             ansiColor('xterm') {
                                 sh 'terraform destroy -auto-approve'
                             }
                         }
                     }
 
-                    stage('Output') {
+                    stage('Terraform Output') {
                         ansiColor('xterm') {
                             if (env.terraform_action == "create") {
                                 env.t_output = terraform_output()
@@ -115,7 +115,7 @@ spec:
                     }
 
                     try {
-                        stage('Destroy') {
+                        stage('Terraform Destroy') {
                             ansiColor('xterm') {
                                 if (env.terraform_action == "remove") {
                                     sh 'terraform destroy -auto-approve'
@@ -126,7 +126,7 @@ spec:
                         }
                     } catch (e) {
                         try {
-                            stage('Rerun failed destroy') {
+                            stage('Rerun failed Terraform destroy') {
                                 ansiColor('xterm') {
                                     sh 'terraform destroy -auto-approve'
                                 }
