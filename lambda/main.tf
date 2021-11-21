@@ -26,7 +26,7 @@ resource "aws_lambda_function" "func" {
   layers       = local.use_docker_image ? [] : var.layers
   package_type = local.use_docker_image ? "Image" : "Zip"
   runtime      = local.use_docker_image ? null : var.runtime
-  handler      = local.use_docker_image ? null : var.handler
+  handler      = local.use_docker_image ? null : "${var.handler}.lambda_handler"
 
   environment {
     variables = var.environment_variables
